@@ -20,6 +20,22 @@
     </nav>
     <div class="container">
         <p>Here are the recipes</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%  for recipe in all_recipes %}
+                    <tr>
+                        <td>{{recipe.name}}</td>
+                        <td>{{recipe.created_at}}</td>
+                    </tr>
+                {%  endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

@@ -55,7 +55,8 @@ def dashboard():
             "id": session['user_id']
         }
         user = User.get_one(data)
-        return render_template("dashboard.html", user = user)
+        all_recipes = Recipe.get_all()
+        return render_template("dashboard.html", user = user, all_recipes = all_recipes)
     
     return redirect('/')
 
