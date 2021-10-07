@@ -10,33 +10,22 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-        <a class="navbar-brand" href="#">Welcome {{user['first_name']}}</a>
+        <a class="navbar-brand" href="#">Welcome</a>
         <div>
-            <a href="/create/recipe">Create Recipe</a>
+            <a href="/dashboard">Dashboard</a>
             <form action="/logout">
                 <input type="submit" value="Logout">
             </form>
         </div>
     </nav>
     <div class="container">
-        <p>Here are the recipes</p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Created On</th>
-                </tr>
-            </thead>
-            <tbody>
-                {%  for recipe in all_recipes %}
-                    <tr>
-                        <td>{{recipe.name}}</td>
-                        <td>{{recipe.created_at}}</td>
-                        <td><a href="/view/{{recipe['id']}}">Instructions</a></td>
-                    </tr>
-                {%  endfor %}
-            </tbody>
-        </table>
+        <h1>{{recipe.name}}</h1>
+        <h2>Description</h2>
+        <h4>{{recipe.description}}</h4>
+        <h2>Instructions</h2>
+        <p>{{recipe.instruction}}</p>
+        <p>Date Made: {{recipe.created_at}}</p>
+        <p>Created By: {{recipe.users[0]['first_name']}} {{recipe.users[0]['last_name']}}</p>
     </div>
 </body>
 </html>

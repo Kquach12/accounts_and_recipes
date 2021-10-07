@@ -27,3 +27,11 @@ def add_to_db():
     }
     Recipe.save(data)
     return redirect('/dashboard')
+
+@app.route('/view/<int:id>')
+def view_recipe(id):
+    data = {
+        "id": id
+    }
+    recipe = Recipe.get_one_with_user(data)
+    return render_template("view_recipe.html", recipe = recipe)
