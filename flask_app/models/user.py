@@ -20,7 +20,7 @@ class User:
     def get_all(cls):
         query = "SELECT * FROM users;"
         # make sure to call the connectToMySQL function with the schema you are targeting.
-        results = connectToMySQL('login_schema').query_db(query)
+        results = connectToMySQL('recipe_schema').query_db(query)
         # Create an empty list to append our instances of friends
         users = []
         # Iterate over the db results and create instances of friends with cls.
@@ -32,36 +32,36 @@ class User:
     def save(cls, data):
         query = "INSERT INTO users (first_name, last_name, email, password, created_at, updated_at ) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s , NOW() , NOW() );"
         # data is a dictionary that will be passed into the save method from server.py
-        return connectToMySQL('login_schema').query_db( query, data )
+        return connectToMySQL('recipe_schema').query_db( query, data )
 
     @classmethod
     def get_one(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
-        results = connectToMySQL('login_schema').query_db(query, data)
+        results = connectToMySQL('recipe_schema').query_db(query, data)
         return cls(results[0])
     
     @classmethod
     def get_by_email(cls, data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL('login_schema').query_db(query, data)
+        results = connectToMySQL('recipe_schema').query_db(query, data)
         return cls(results[0])
         
     # @classmethod
     # def update(cls, data):
     #     query = "UPDATE emails SET email = %(email)s, updated_at = NOW() WHERE id = %(id)s"
-    #     return connectToMySQL('login_schema').query_db( query, data )
+    #     return connectToMySQL('recipe_schema').query_db( query, data )
 
     @classmethod
     def delete(cls, data):
         query = "DELETE FROM userss WHERE id = %(id)s"
-        return connectToMySQL('login_schema').query_db(query, data)
+        return connectToMySQL('recipe_schema').query_db(query, data)
 
     @staticmethod
     def validate_email(user):
         is_valid = True
         # test whether a field matches the pattern
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL('login_schema').query_db(query,user)
+        results = connectToMySQL('recipe_schema').query_db(query,user)
         if len(results) >= 1:
             flash("Email is taken!", "register")
             is_valid = False
@@ -88,7 +88,7 @@ class User:
     def validate_login(user):
         is_valid = True
         query = "SELECT * FROM users WHERE email = %(email)s;"
-        results = connectToMySQL('login_schema').query_db(query,user)
+        results = connectToMySQL('recipe_schema').query_db(query,user)
         if len(results) == 0:
             flash("Account does not exist", "login")
             is_valid = False

@@ -9,9 +9,17 @@
 
 </head>
 <body>
-    Hello {{user['first_name']}} {{user['last_name']}}
-    <form action="/logout">
-        <input type="submit" value="Logout">
-    </form>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+        <a class="navbar-brand" href="#">Welcome {{user['first_name']}}</a>
+        <div>
+            <a href="/create/recipe">Create Recipe</a>
+            <form action="/logout">
+                <input type="submit" value="Logout">
+            </form>
+        </div>
+    </nav>
+    <div class="container">
+        <p>Here are the recipes</p>
+    </div>
 </body>
 </html>
