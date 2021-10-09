@@ -69,13 +69,14 @@ def logout():
 
 @app.route('/dashboard')
 def dashboardtest():
-    if 'user_id' in session:
-        data = {
-            "id": session['user_id']
-        }
-        user = User.get_one(data)
-        all_recipes = Recipe.get_all_with_users()
-        # print (user.id, all_recipes[0].user_id)
-        return render_template("dashboard.html", user = user, all_recipes = all_recipes)
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        "id": session['user_id']
+    }
+    user = User.get_one(data)
+    all_recipes = Recipe.get_all_with_users()
+    # print (user.id, all_recipes[0].user_id)
+    return render_template("dashboard.html", user = user, all_recipes = all_recipes)
     
     return redirect('/')

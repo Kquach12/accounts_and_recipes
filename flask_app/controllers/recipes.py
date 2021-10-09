@@ -6,12 +6,13 @@ from flask_app.models.recipe import Recipe
 
 @app.route('/create/recipe')
 def create_page():
-    if 'user_id' in session:
-        data = {
-            "id": session['user_id']
-        }
-        user = User.get_one(data)
-        return render_template('create_recipe.html', user = user)
+    if 'user_id' not in session:
+        return redirect('/')
+    data = {
+        "id": session['user_id']
+    }
+    user = User.get_one(data)
+    return render_template('create_recipe.html', user = user)
 
 @app.route('/create', methods = ["POST"])
 def add_to_db():
@@ -30,6 +31,8 @@ def add_to_db():
 
 @app.route('/view/<int:id>')
 def view_recipe(id):
+    if 'user_id' not in session:
+        return redirect('/')
     data = {
         "id": id
     }
@@ -38,6 +41,8 @@ def view_recipe(id):
 
 @app.route('/edit/<int:id>')
 def edit_recipe(id):
+    if 'user_id' not in session:
+        return redirect('/')
     data = {
         "id": id
     }
