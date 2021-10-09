@@ -36,8 +36,12 @@ def view_recipe(id):
     data = {
         "id": id
     }
+    user_data = {
+        "id": session['user_id']
+    }
+    user = User.get_one(user_data)
     recipe = Recipe.get_one_with_user(data)
-    return render_template("view_recipe.html", recipe = recipe)
+    return render_template("view_recipe.html", recipe = recipe, user = user)
 
 @app.route('/edit/<int:id>')
 def edit_recipe(id):
@@ -46,8 +50,12 @@ def edit_recipe(id):
     data = {
         "id": id
     }
+    user_data = {
+        "id": session['user_id']
+    }
+    user = User.get_one(user_data)
     recipe = Recipe.get_one(data)
-    return render_template("edit_recipe.html", recipe = recipe)
+    return render_template("edit_recipe.html", recipe = recipe, user = user)
 
 
 @app.route('/edit', methods = ["POST"])
@@ -73,4 +81,4 @@ def delete_recipe(id):
         "id": id
     }
     Recipe.delete(data)
-    return redirect('/dashboard.html')
+    return redirect('/dashboard')

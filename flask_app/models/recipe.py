@@ -62,11 +62,6 @@ class Recipe:
         results = connectToMySQL('recipe_schema').query_db(query, data)
         return cls(results[0])
     
-    # @classmethod
-    # def get_by_instruction(cls, data):
-    #     query = "SELECT * FROM recipes WHERE instruction = %(instruction)s;"
-    #     results = connectToMySQL('recipe_schema').query_db(query, data)
-    #     return cls(results[0])
         
     @classmethod
     def update(cls, data):
@@ -75,7 +70,7 @@ class Recipe:
 
     @classmethod
     def delete(cls, data):
-        query = "DELETE FROM recipess WHERE id = %(id)s"
+        query = "DELETE FROM recipes WHERE id = %(id)s"
         return connectToMySQL('recipe_schema').query_db(query, data)
 
     @classmethod 
@@ -102,10 +97,6 @@ class Recipe:
         # test whether a field matches the pattern
         query = "SELECT * FROM recipes WHERE name = %(name)s;"
         results = connectToMySQL('recipe_schema').query_db(query,recipe)
-        # if len(results) >= 1:
-        #     flash("instruction is taken!", "recipe")
-        #     is_valid = False
-        # if len(recipe['under_30_minutes']) < 1:
         if 'under_30_minutes' not in recipe:
             flash("Please indicate the length of time! ", "recipe")
             is_valid = False
@@ -124,16 +115,3 @@ class Recipe:
 
         return is_valid
 
-
-    # @staticmethod
-    # def validate_login(recipe):
-    #     is_valid = True
-    #     query = "SELECT * FROM recipes WHERE instruction = %(instruction)s;"
-    #     results = connectToMySQL('recipe_schema').query_db(query,recipe)
-    #     if len(results) == 0:
-    #         flash("Account does not exist", "login")
-    #         is_valid = False
-    #     if not instruction_REGEX.match(recipe['instruction']): 
-    #         flash("Please enter an instruction", "login")
-    #         is_valid = False
-    #     return is_valid
