@@ -10,7 +10,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-        <a class="navbar-brand" href="#">Welcome {{user['first_name']}}</a>
+        <a class="navbar-brand" href="#">Welcome</a>
         <div>
             <a href="/dashboard">Dashboard</a>
             <form action="/logout">
@@ -19,33 +19,31 @@
         </div>
     </nav>
     <div class="container">
-        <h1>Add New Recipe</h1>
+        <h1>Edit Recipe</h1>
         <div class="row">
-            <form action="/create" method="POST" class="container">
-                <!-- <input type="hidden" name="user_id" value = "session['user_id']"> -->
+            <form action="/edit" method="POST" class="container">
+                <input type="hidden" name = "id" value = "{{recipe.id}}">
                 <div class="row">
                     <div class="col">
                         <label for="name">Name: </label>
-                        <input type="text" name="name" class="form-control">
+                        <input type="text" name="name" class="form-control" value="{{recipe.name}}">
                         <label for="description">Description: </label>
-                        <textarea name="description" cols="10" rows="10" class="form-control"></textarea>
+                        <textarea name="description" cols="10" rows="10" class="form-control">{{recipe.description}}</textarea>
                         <label for="instruction">Instruction: </label>
-                        <textarea name="instruction" cols="30" rows="10" class="form-control"></textarea>                    
+                        <textarea name="instruction" cols="30" rows="10" class="form-control">{{recipe.instruction}}</textarea>                    
                     </div>
                     <div class="col">
                         <label for="created_at">Date Created: </label>
-                        <input type="date" name="created_at" class="form-control">
+                        <input type="date" name="created_at" class="form-control" value="{{recipe.created_at.strftime('%Y-%m-%d')}}">
                         <p>Under 30 Minutes?</p>
-                        <div>
-                            <input type="radio" name="under_30_minutes" value = "Yes">
-                            <label for="under_30_minutes">Yes</label>
-                            <input type="radio" name="under_30_minutes" value = "No">
-                            <label for="under_30_minutes">No</label>
-                        </div>
+                        <input type="radio" name="under_30_minutes" value = "Yes">
+                        <label for="under_30_minutes">Yes</label>
+                        <input type="radio" name="under_30_minutes" value = "No">
+                        <label for="under_30_minutes">No</label>
                         
                     </div>
                 </div>
-                <input type="submit" value="Create">
+                <input type="submit" value="Update">
             </form>
                 {% with messages = get_flashed_messages(category_filter = ['recipe']) %}     <!-- declare a variable called messages -->
                     {% if messages %}                            <!-- check if there are any messages -->

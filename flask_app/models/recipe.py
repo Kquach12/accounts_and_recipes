@@ -15,6 +15,7 @@ class Recipe:
         self.under_30_minutes = data['under_30_minutes']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.user_id = data['user_id']
         self.users = []
     # Now we use class methods to query our database
     @classmethod
@@ -27,6 +28,26 @@ class Recipe:
         # Iterate over the db results and create instances of friends with cls.
         for recipe in results:
             recipes.append( cls(recipe) )
+        return recipes
+
+    @classmethod   
+    def get_all_with_users(cls):
+        query = "SELECT * FROM recipes LEFT JOIN users ON users.id = recipes.user_id;"
+        results = connectToMySQL('recipe_schema').query_db(query)
+        recipes = []
+        # for row in results:
+        for i in range(len(results)):
+            recipes.append( cls(results[i]) )
+            u = {
+                "id": results[i]['users.id'],
+                "first_name": results[i]['first_name'],
+                "last_name": results[i]['last_name'],
+                "email": results[i]['email'],
+                "password": results[i]['password'],
+                "created_at": results[i]['created_at'],
+                "updated_at": results[i]['updated_at']
+            }
+            recipes[i].users.append(user.User(u))
         return recipes
 
     @classmethod
@@ -47,10 +68,10 @@ class Recipe:
     #     results = connectToMySQL('recipe_schema').query_db(query, data)
     #     return cls(results[0])
         
-    # @classmethod
-    # def update(cls, data):
-    #     query = "UPDATE instructions SET instruction = %(instruction)s, updated_at = NOW() WHERE id = %(id)s"
-    #     return connectToMySQL('recipe_schema').query_db( query, data )
+    @classmethod
+    def update(cls, data):
+        query = "UPDATE recipes SET name = %(name)s, description = %(description)s, instruction = %(instruction)s, under_30_minutes = %(under_30_minutes)s, created_at = %(created_at)s,  updated_at = NOW() WHERE id = %(id)s"
+        return connectToMySQL('recipe_schema').query_db( query, data )
 
     @classmethod
     def delete(cls, data):
@@ -81,10 +102,11 @@ class Recipe:
         # test whether a field matches the pattern
         query = "SELECT * FROM recipes WHERE name = %(name)s;"
         results = connectToMySQL('recipe_schema').query_db(query,recipe)
-        if len(results) >= 1:
-            flash("instruction is taken!", "recipe")
-            is_valid = False
-        if len(recipe['under_30_minutes']) < 1:
+        # if len(results) >= 1:
+        #     flash("instruction is taken!", "recipe")
+        #     is_valid = False
+        # if len(recipe['under_30_minutes']) < 1:
+        if 'under_30_minutes' not in recipe:
             flash("Please indicate the length of time! ", "recipe")
             is_valid = False
         if len(recipe['name']) < 3:

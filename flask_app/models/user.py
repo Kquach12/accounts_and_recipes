@@ -29,6 +29,8 @@ class User:
             users.append( cls(user) )
         return users
 
+
+
     @classmethod
     def save(cls, data):
         query = "INSERT INTO users (first_name, last_name, email, password, created_at, updated_at ) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s , NOW() , NOW() );"

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session, flash
+from flask import Flask, render_template, redirect, request, session, flash, url_for
 from flask_app import app
 from flask_app.models.user import User
 from flask_app.models.recipe import Recipe
@@ -48,19 +48,34 @@ def login():
     return redirect("/dashboard")
 
 
+# @app.route('/dashboard')
+# def dashboard():
+#     if 'user_id' in session:
+#         data = {
+#             "id": session['user_id']
+#         }
+#         user = User.get_one(data)
+#         all_recipes = Recipe.get_all()
+#         return render_template("dashboard.html", user = user, all_recipes = all_recipes)
+    
+#     return redirect('/')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
+
+
+
 @app.route('/dashboard')
-def dashboard():
+def dashboardtest():
     if 'user_id' in session:
         data = {
             "id": session['user_id']
         }
         user = User.get_one(data)
-        all_recipes = Recipe.get_all()
+        all_recipes = Recipe.get_all_with_users()
+        # print (user.id, all_recipes[0].user_id)
         return render_template("dashboard.html", user = user, all_recipes = all_recipes)
     
-    return redirect('/')
-
-@app.route('/logout')
-def logout():
-    session.clear()
     return redirect('/')
