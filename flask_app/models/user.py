@@ -78,10 +78,13 @@ class User:
             flash("Password must be at least 5 characters ", "register")
             is_valid = False
         if len(user['first_name']) < 2:
-            flash("Please enter your first name ", "register")
+            flash("First name must be at least 2 characters", "register")
             is_valid = False
         if len(user['last_name']) < 2:
-            flash("Please enter your last name ", "register")
+            flash("Last name must be at least 2 characters ", "register")
+            is_valid = False
+        if not user['first_name'].isalpha() or not user['last_name'].isalpha():
+            flash("Please include letters only in your name ", "register")
             is_valid = False
 
         return is_valid
@@ -92,10 +95,11 @@ class User:
         is_valid = True
         query = "SELECT * FROM users WHERE email = %(email)s;"
         results = connectToMySQL('recipe_schema').query_db(query,user)
-        if len(results) == 0:
-            flash("Account does not exist", "login")
-            is_valid = False
         if not EMAIL_REGEX.match(user['email']): 
             flash("Please enter an email", "login")
+            is_valid = False
+            return is_valid
+        if len(results) == 0:
+            flash("Account does not exist", "login")
             is_valid = False
         return is_valid
